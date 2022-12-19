@@ -6,7 +6,7 @@
 /*   By: hel-kame <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 21:54:08 by hel-kame          #+#    #+#             */
-/*   Updated: 2022/12/19 15:53:07 by hel-kame         ###   ########.fr       */
+/*   Updated: 2022/12/19 21:42:54 by hel-kame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@ void	signal_handler(int signum, siginfo_t *siginfo, void *ucontext)
 {
 	int i;
 
+	i = 0;
 	(void)ucontext;
 	if (signum != SIGUSR1 && signum != SIGUSR2)
 		return ;
 	if (siginfo->si_code != SI_USER)
 		return ;
 	if (siginfo->si_signo == SIGUSR1)
-		i = 0;
-	if (siginfo->si_signo == SIGUSR2)
 		i = 1;
-	ft_printf("%d\n", i);
+	if (siginfo->si_signo == SIGUSR2)
+		i = 0;
+	ft_printf("%d", i);
 }
 
 int	main(void)

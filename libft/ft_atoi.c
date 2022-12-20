@@ -6,7 +6,7 @@
 /*   By: hel-kame <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:17:32 by hel-kame          #+#    #+#             */
-/*   Updated: 2022/11/17 11:17:56 by hel-kame         ###   ########.fr       */
+/*   Updated: 2022/12/20 15:27:36 by hel-kame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_atoi(const char *nptr)
 	i = 0;
 	val = 0;
 	neg = 0;
+	if (nptr == NULL)
+		return (-1);
 	while ((nptr[i] == ' ') || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
 	if (nptr[i] == '-')

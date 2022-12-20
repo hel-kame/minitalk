@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-kame <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 22:20:15 by hel-kame          #+#    #+#             */
-/*   Updated: 2022/12/20 21:12:57 by hel-kame         ###   ########.fr       */
+/*   Updated: 2022/12/20 21:16:03 by hel-kame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 int	g_global;
 
@@ -44,7 +44,7 @@ static void	str_to_binary(char *s, pid_t pid, t_bin bin)
 static void	signal_checker(int signum, siginfo_t *siginfo, void *ucontext)
 {
 	(void)ucontext;
-	if (signum != SIGUSR1)
+	if (signum != SIGUSR1 && signum != SIGUSR2)
 		exit(-1);
 	if (siginfo->si_code != SI_USER)
 		exit(-1);
@@ -56,6 +56,8 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *ucontext)
 	signal_checker(signum, siginfo, ucontext);
 	if (signum == SIGUSR1)
 		g_global = 1;
+	else if (signum == SIGUSR2)
+		ft_printf("Message was successfully received.\n");
 }
 
 int	main(int argc, char **argv)
@@ -74,6 +76,8 @@ int	main(int argc, char **argv)
 	sigemptyset(&signal_action.sa_mask);
 	signal_action.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGUSR1, &signal_action, NULL) < 0)
+		exit(-1);
+	if (sigaction(SIGUSR2, &signal_action, NULL) < 0)
 		exit(-1);
 	str_to_binary(argv[2], pid, bin);
 	exit(0);
